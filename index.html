@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>飘落特效网页</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      overflow: hidden;
+      background: #000; /* 背景色，可改为黑色或深色增强特效 */
+    }
+    /* 星星/爱心样式 */
+    .particle {
+      position: absolute;
+      color: #fff;
+      font-size: 16px;
+      pointer-events: none; /* 避免遮挡点击 */
+    }
+    /* 名字样式 */
+    .name {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #fff;
+      font-size: 36px;
+      font-weight: bold;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+  </style>
+</head>
+<body>
+  <!-- 名字显示区域 -->
+  <div class="name">[王瑞瑶]</div>
+
+  <script>
+    // 粒子类型：星星、爱心、其他符号
+    const particleTypes = ['⭐', '❤️', '✨', '💖', '💕'];
+    // 粒子数量
+    const particleCount = 50;
+
+    // 创建粒子并添加动画
+    function createParticles() {
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        // 随机选择粒子类型
+        particle.textContent = particleTypes[Math.floor(Math.random() * particleTypes.length)];
+        // 随机大小
+        const size = Math.random() * 20 + 10;
+        particle.style.fontSize = `${size}px`;
+        // 随机颜色（可选）
+        particle.style.color = `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`;
+        // 随机初始位置（水平）
+        particle.style.left = `${Math.random() * 100}vw`;
+        // 随机初始位置（垂直，屏幕外顶部）
+        particle.style.top = `-50px`;
+        // 随机下落速度（5-15秒）
+        const duration = Math.random() * 10 + 5;
+        particle.style.animation = `fall ${duration}s linear infinite`;
+        // 随机动画延迟
+        particle.style.animationDelay = `${Math.random() * 5}s`;
+        document.body.appendChild(particle);
+      }
+    }
+
+    // 定义下落动画
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes fall {
+        to {
+          transform: translateY(100vh) rotate(360deg);
+          opacity: 0;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+
+    // 页面加载完成后执行
+    window.onload = createParticles;
+  </script>
+</body>
+</html>
